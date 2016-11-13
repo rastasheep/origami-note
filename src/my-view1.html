@@ -1,4 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-localstorage/iron-localstorage.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-view1">
@@ -14,14 +15,29 @@
     <div class="card">
       <div class="circle">1</div>
       <h1>View One</h1>
-      <p>Ut labores minimum atomorum pro. Laudem tibique ut has.
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
+
+      <iron-localstorage
+           name="polymer-localstorage-x-test1"
+           value="{{value}}"
+           on-iron-localstorage-load-empty="initializeDefaultValue"
+           >
+      </iron-localstorage>
+
+      <p>Form element below will be kept in sync with <code>localStorage</code>.</p>
+      <p>Demo source also shows how to initialize storage to default value</p>
+      <p>If you open another window with this test, changes in one window will propagate to the other immediately.</p>
+      <p>Name: <input value="{{value.name::change}}" placeholder="Enter words"></p>
+      <p>Last name: <input value="{{value.lastName::change}}" placeholder="Enter words"></p>
     </div>
+
   </template>
 
   <script>
     Polymer({
-      is: 'my-view1'
+      is: 'my-view1',
+      initializeDefaultValue: function () {
+        this.value = {};
+      }
     });
   </script>
 </dom-module>
