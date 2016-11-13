@@ -4,7 +4,11 @@
   "description": "Note taking (progressive) web app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "polymer build",
+    "lint": "polymer lint",
+    "serve": "polymer serve --port 3000 --hostname 0.0.0.0",
+    "test": "polymer test",
+    "start": "npm run serve"
   },
   "repository": {
     "type": "git",
