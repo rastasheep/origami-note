@@ -8,8 +8,11 @@
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+
 <link rel="import" href="my-icons.html">
 
 <dom-module id="my-app">
@@ -51,6 +54,11 @@
 
         font-weight: bold;
       }
+
+      .paper-item-link {
+        color: inherit;
+        text-decoration: none;
+      }
     </style>
 
     <app-location route="{{route}}"></app-location>
@@ -61,14 +69,30 @@
         tail="{{subroute}}"></app-route>
 
     <app-drawer-layout fullbleed responsive-width="1280px">
-      <!-- Drawer content -->
-      <app-drawer opened="{{drawerOpened}}" swipe-open>
-        <app-toolbar>Menu</app-toolbar>
-        <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <a name="view1" href="/view1">View One</a>
-          <a name="view2" href="/view2">View Two</a>
-          <a name="view3" href="/view3">View Three</a>
-        </iron-selector>
+      <!-- nav panel -->
+      <app-drawer id="drawer" swipe-open>
+        <app-header-layout has-scrolling-region>
+          <app-toolbar>Menu</app-toolbar>
+
+          <!-- nav menu -->
+          <paper-listbox
+            selected="{{_pageData.page}}"
+            attr-for-selected="name"
+            on-iron-activate="_drawerSelected">
+
+            <a class="paper-item-link" name="view1" href="/view1">
+              <paper-item>View One</paper-item>
+            </a>
+            <a class="paper-item-link" name="view2" href="/view2">
+              <paper-item>View Two</paper-item>
+            </a>
+            <a class="paper-item-link" name="view3" href="/view3">
+              <paper-item>View Three</paper-item>
+            </a>
+
+          </paper-listbox>
+
+        </app-header-layout>
       </app-drawer>
 
       <!-- Main content -->
@@ -76,7 +100,7 @@
 
         <app-header condenses reveals effects="waterfall">
           <app-toolbar>
-            <paper-icon-button icon="menu" on-click="_toggleDrawer">
+            <paper-icon-button icon="menu" drawer-toggle>
             </paper-icon-button>
             <div main-title>My App</div>
           </app-toolbar>
@@ -127,8 +151,8 @@
         this.page = 'view404';
       },
 
-      _toggleDrawer: function() {
-        this.drawerOpened = !this.drawerOpened;
+      _drawerSelected: function() {
+        if (!this.$.drawer.persistent) this.$.drawer.close();
       }
     });
   </script>
