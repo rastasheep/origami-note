@@ -2,6 +2,8 @@
 <link rel="import" href="../bower_components/iron-localstorage/iron-localstorage.html">
 <link rel="import" href="shared-styles.html">
 
+<link rel="import" href="code-mirror.html">
+
 <dom-module id="my-view1">
   <template>
     <style include="shared-styles">
@@ -13,21 +15,10 @@
     </style>
 
     <div class="card">
-      <div class="circle">1</div>
-      <h1>View One</h1>
-
-      <iron-localstorage
-           name="polymer-localstorage-x-test1"
-           value="{{value}}"
-           on-iron-localstorage-load-empty="initializeDefaultValue"
-           >
-      </iron-localstorage>
-
-      <p>Form element below will be kept in sync with <code>localStorage</code>.</p>
-      <p>Demo source also shows how to initialize storage to default value</p>
-      <p>If you open another window with this test, changes in one window will propagate to the other immediately.</p>
-      <p>Name: <input value="{{value.name::change}}" placeholder="Enter words"></p>
-      <p>Last name: <input value="{{value.lastName::change}}" placeholder="Enter words"></p>
+      <code-mirror>
+        # H1
+        hi
+      </code-mirror>
     </div>
 
   </template>

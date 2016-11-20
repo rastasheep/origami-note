@@ -1,0 +1,80 @@
+:host {
+  color: #555;
+  display: block;
+  font-size: 18px;
+  font-family: monospace;
+  width: 100%;
+  height: 100%;
+  line-height: 1.5em;
+  outline: none;
+  overflow-y: scroll;
+  resize: none;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+textarea {
+  position: absolute;
+  left: -9999px;
+}
+
+.CodeMirror {
+  background-color: transparent;
+  height: 100%;
+}
+
+.CodeMirror-gutters {
+  border-right: 0;
+  background-color: transparent;
+  white-space: nowrap;
+}
+
+.CodeMirror-foldmarker {
+  color: #666666;
+  text-shadow: none;
+  padding-left: 10px;
+}
+
+.CodeMirror-sizer {
+  margin: 0 27px !important;
+  border-right: 0 !important;
+}
+
+.cm-s-default .cm-header {
+  color: initial;
+  margin-left: 4px;
+}
+
+.CodeMirror-gutter-wrapper {
+  left: -27px;
+}
+
+.CodeMirror-gutter-elt {
+  width: 27px;
+}
+
+.CodeMirror-foldgutter-open, .CodeMirror-foldgutter-folded {
+  width: 27px;
+  text-align: center;
+}
+
+.CodeMirror-foldgutter {
+  width: 27px;
+}
+
+.CodeMirror-guttermarker-subtle {
+  color: #666666;
+}
+
+.CodeMirror-foldgutter-open:after {
+  content: "-";
+}
+
+.CodeMirror-foldgutter-folded:after {
+  content: "+";
+}
+
+.CodeMirror-focused .CodeMirror-selected {
+  background: #b3d4fc;
+}
+

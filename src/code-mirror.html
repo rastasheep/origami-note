@@ -1,0 +1,52 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="code-mirror-import.html">
+
+<dom-module id="code-mirror">
+  <template>
+    <link href="../bower_components/codemirror/lib/codemirror.css" rel="stylesheet">
+    <link href="../bower_components/codemirror/addon/fold/foldgutter.css" rel="stylesheet">
+    <link href="code-mirror.css" rel="stylesheet">
+
+    <style>
+      :host {
+        display: block;
+        position: relative;
+        height: 100%;
+      }
+    </style>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'code-mirror',
+    value: '',
+    mode: 'htmlmixed',
+    theme: 'xq-light',
+    tabSize: 2,
+    lineNumbers: true,
+    ready: function() {
+      if (!this.value) {
+        this.value = this.textContent;
+      }
+      this.mirror = CodeMirror(this.shadowRoot, {
+        mode: "gfm",
+        lineNumbers: false,
+        lineWrapping: true,
+        extraKeys: {"Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }},
+        foldGutter: true,
+        gutters: ["CodeMirror-foldgutter"],
+        cursorBlinkRate: 0,
+        scrollbarStyle: null,
+        autofocus: true,
+        undoDepth: 10,
+      });
+    },
+    refresh: function() {
+      this.mirror.refresh();
+    },
+    focus: function() {
+      this.mirror.focus();
+    }
+  });
+</script>
