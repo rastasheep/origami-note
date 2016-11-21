@@ -17,7 +17,8 @@
     "polymer": "Polymer/polymer#^1.6.0",
     "paper-item": "^1.2.1",
     "paper-listbox": "^1.1.2",
-    "codemirror": "^5.19.0"
+    "codemirror": "^5.19.0",
+    "paper-fab": "PolymerElements/paper-fab#^1.2.1"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"
@@ -27,10 +28,8 @@
       "main": [
         "lib/codemirror.css",
         "lib/codemirror.js",
-
         "mode/markdown/markdown.js",
         "mode/gfm/gfm.js",
-
         "addon/mode/overlay.js",
         "addon/fold/foldgutter.css",
         "addon/fold/foldgutter.js",

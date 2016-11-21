@@ -47,6 +47,17 @@
     },
     focus: function() {
       this.mirror.focus();
+    },
+    foldAll: function() {
+      var mirror = this.mirror;
+      mirror.operation(function () {
+        for (var i = 0; i < mirror.lineCount() ; i++) {
+          if (!mirror.isFolded({ line: i + 1, ch: 0 })) {
+            mirror.foldCode({ line: i, ch: 0 }, null, "fold");
+            console.log('folding');
+          }
+        }
+      })
     }
   });
 </script>
