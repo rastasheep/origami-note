@@ -17,11 +17,14 @@
         padding: 10px;
       }
     </style>
+    <iron-localstorage
+      name="origami-note-editor-state"
+      value="{{ editorState }}"
+      on-iron-localstorage-load-empty="_initDefaultEditorState">
+    </iron-localstorage>
 
     <div class="card">
-      <code-mirror id="mirror">
-        # H1
-        hi
+      <code-mirror id="mirror" state="{{ editorState }}">
       </code-mirror>
     </div>
     <paper-fab icon="icons:unfold-less" on-tap="__foldAll"></paper-fab>
@@ -43,8 +46,14 @@
   <script>
     Polymer({
       is: 'my-view1',
-      initializeDefaultValue: function () {
-        this.value = {};
+      properties: {
+        editorState: {
+          type: Object,
+          notify: true
+        }
+      },
+      _initDefaultEditorState: function () {
+        this.editorState = {};
       },
       __foldAll: function() {
         this.$.mirror.foldAll();

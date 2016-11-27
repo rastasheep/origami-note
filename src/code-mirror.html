@@ -12,6 +12,7 @@
         display: block;
         position: relative;
         height: 100%;
+        overflow: hidden;
       }
     </style>
   </template>
@@ -20,15 +21,14 @@
 <script>
   Polymer({
     is: 'code-mirror',
-    value: '',
-    mode: 'htmlmixed',
-    theme: 'xq-light',
-    tabSize: 2,
-    lineNumbers: true,
-    ready: function() {
-      if (!this.value) {
-        this.value = this.textContent;
+    properties: {
+      state: {
+        type: Object,
+        observer: '_stateChanged',
+        notify: true,
       }
+    },
+    ready: function() {
       this.mirror = CodeMirror(this.shadowRoot, {
         mode: "gfm",
         lineNumbers: false,
@@ -41,6 +41,12 @@
         autofocus: true,
         undoDepth: 10,
       });
+      var updateState = function (cm) {
+        this.state = this._getState(cm)
+      };
+
+      this.mirror.on('change', updateState.bind(this));
+      this.mirror.on('gutterClick', updateState.bind(this));
     },
     refresh: function() {
       this.mirror.refresh();
@@ -54,10 +60,49 @@
         for (var i = 0; i < mirror.lineCount() ; i++) {
           if (!mirror.isFolded({ line: i + 1, ch: 0 })) {
             mirror.foldCode({ line: i, ch: 0 }, null, "fold");
-            console.log('folding');
           }
         }
       })
+    },
+    _stateChanged: function(newValue, oldValue) {
+      if (!oldValue) {
+        this._setState(this.mirror, newValue);
+      }
+    },
+    _getState:  function(cm){
+      var doc = cm.getDoc();
+      var marks = doc.getAllMarks();
+      var res = {
+        value: cm.getValue(),
+        selections: doc.listSelections(),
+        marks: []
+      };
+      if ( marks.length ){
+        // Reverse the array in order to start in the last folde in case of nesting
+        for ( var i = marks.length - 1; i >= 0; i-- ){
+          if ( marks[i].collapsed && (marks[i].type === 'range') ){
+            res.marks.push(marks[i].find().from);
+          }
+        }
+      }
+      return res;
+    },
+    _setState: function(cm, state){
+      var doc = cm.getDoc();
+      if ( state.value !== undefined ){
+        cm.setValue(state.value);
+      }
+      if ( state.selections ){
+        for (var i = 0, len = state.selections.length; i < len; i++) {
+          a = state.selections[i]
+            doc.setSelection(a.anchor, a.head);
+        }
+      }
+      if ( state.marks ){
+        for (var i = 0, len = state.marks.length; i < len; i++) {
+          cm.foldCode(state.marks[i]);
+        };
+      }
     }
   });
 </script>
