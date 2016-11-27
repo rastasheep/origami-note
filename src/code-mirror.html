@@ -11,8 +11,10 @@
       :host {
         display: block;
         position: relative;
+        width: 100%;
         height: 100%;
         overflow: hidden;
+        min-height: 10vh;
       }
     </style>
   </template>
@@ -47,6 +49,7 @@
 
       this.mirror.on('change', updateState.bind(this));
       this.mirror.on('gutterClick', updateState.bind(this));
+      this.async( this.refresh, 1)
     },
     refresh: function() {
       this.mirror.refresh();
