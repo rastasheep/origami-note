@@ -41,7 +41,11 @@ textarea {
 
 .cm-s-default .cm-header {
   color: initial;
-  margin-left: 4px;
+}
+
+.cm-s-default .cm-comment {
+  font-family: Menlo,Monaco,"Courier New",Courier,monospace;
+  font-size: 16px;
 }
 
 .CodeMirror-gutter-wrapper {
@@ -74,6 +78,10 @@ textarea {
 }
 
 .CodeMirror-focused .CodeMirror-selected {
-  background: #b3d4fc;
+  background-color: #cfd8dc; // --paper-blue-grey-100
+}
+
+.CodeMirror-selected {
+  background-color: #ffebee; // --paper-red-50
 }
 
