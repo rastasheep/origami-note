@@ -18,7 +18,8 @@
     "paper-item": "^1.2.1",
     "paper-listbox": "^1.1.2",
     "codemirror": "^5.19.0",
-    "paper-fab": "PolymerElements/paper-fab#^1.2.1"
+    "paper-fab": "PolymerElements/paper-fab#^1.2.1",
+    "paper-tooltip": "PolymerElements/paper-tooltip#^1.1.3"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"

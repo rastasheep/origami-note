@@ -3,6 +3,7 @@
 <link rel="import" href="../bower_components/iron-localstorage/iron-localstorage.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
 
 <link rel="import" href="shared-styles.html">
 
@@ -15,6 +16,90 @@
         display: block;
 
         padding: 10px;
+        --paper-tooltip: {
+          font-size: 12px;
+          font-weight: bold;
+          padding: 6px 8px;
+          background-color: rgba(70,70,70,.9);
+          box-shadow: 0 1px 2px rgba(0,0,0,.15);
+          color: #ececec;
+        }
+      }
+
+      .fab__container {
+        position: fixed;
+        bottom: 23px;
+        right: 23px;
+        z-index: 2;
+      }
+
+      .fab--small {
+        opacity: 0;
+        will-change: opacity;
+        -webkit-transform: scale(.4) rotate(360deg);
+        transform: scale(.4) rotate(360deg);
+        -webkit-transition: all 120ms cubic-bezier(.25,.25,0,1);
+        transition: all 120ms cubic-bezier(.25,.25,0,1);
+        -webkit-transition-property: opacity, transform;
+        transition-property: opacity, transform;
+      }
+
+      .fab--small:nth-child(1){
+        -webkit-transition-delay: 0;
+        transition-delay: 0;
+      }
+      .fab__container:hover .fab--small:nth-child(1){
+        -webkit-transition-delay: 90ms;
+        transition-delay: 90ms;
+      }
+      .fab--small:nth-child(2){
+        -webkit-transition-delay: 30ms;
+        transition-delay: 30ms;
+      }
+      .fab__container:hover .fab--small:nth-child(2){
+        -webkit-transition-delay: 60ms;
+        transition-delay: 60ms;
+      }
+      .fab--small:nth-child(3){
+        -webkit-transition-delay: 60ms;
+        transition-delay: 60ms;
+      }
+      .fab__container:hover .fab--small:nth-child(3){
+        -webkit-transition-delay: 30ms;
+        transition-delay: 30ms;
+      }
+      .fab--small:nth-child(4){
+        -webkit-transition-delay: 75ms;
+        transition-delay: 75ms;
+      }
+      .fab__container:hover .fab--small:nth-child(4){
+        -webkit-transition-delay: 15ms;
+        transition-delay: 15ms;
+      }
+
+      .fab__container:hover paper-fab.fab--small {
+        opacity: 1;
+        will-change: opacity;
+        -webkit-transform: scale(1) rotate(360deg);
+        transform: scale(1) rotate(360deg);
+        -webkit-transition: all 120ms cubic-bezier(.25,.25,0,1);
+        transition: all 120ms cubic-bezier(.25,.25,0,1);
+      }
+
+      .fab--big::shadow iron-icon {
+        -webkit-transition: -webkit-transform 210ms cubic-bezier(.25,.25,0,1);
+        transition: transform 210ms cubic-bezier(.25,.25,0,1);
+      }
+
+      .fab__container:hover .fab--big::shadow iron-icon {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+
+      paper-fab {
+        margin: 10px auto;
+        --paper-fab-background: var(--google-red-500);
+        --paper-fab-keyboard-focus-background: var(--google-red-500);
       }
     </style>
     <iron-localstorage
@@ -27,20 +112,24 @@
       <code-mirror id="mirror" state="{{ editorState }}">
       </code-mirror>
     </div>
-    <paper-fab icon="icons:unfold-less" on-tap="__foldAll"></paper-fab>
 
-    <style>
-      paper-fab {
-        position: fixed;
-        bottom: 23px;
-        right: 23px;
-        z-index: 2;
-        --paper-fab-background: var(--google-red-500);
-        --paper-fab-keyboard-focus-background: var(--google-red-500);
-      }
+    <div class="fab__container">
+      <paper-fab mini icon="favorite" class="fab--small" id="fab-1"></paper-fab>
+      <paper-tooltip for="fab-1" position="left" animation-delay="0">Tooltip text</paper-tooltip>
 
-    </style>
+      <paper-fab mini icon="check" class="fab--small" id="fab-2"></paper-fab>
+      <paper-tooltip for="fab-2" position="left" animation-delay="0">Tooltip text</paper-tooltip>
 
+      <paper-fab mini icon="reply" class="fab--small" id="fab-3"></paper-fab>
+      <paper-tooltip for="fab-3" position="left" animation-delay="0">Tooltip text</paper-tooltip>
+
+      <paper-fab mini icon="star" class="fab--small" id="fab-4"></paper-fab>
+      <paper-tooltip for="fab-4" position="left" animation-delay="0">Tooltip text</paper-tooltip>
+
+      <paper-fab icon="icons:unfold-less" on-tap="__foldAll" class="fab--big" id="fold"></paper-fab>
+      <paper-tooltip for="fold" position="left" animation-delay="0">Tooltip text</paper-tooltip>
+
+    </div>
   </template>
 
   <script>
