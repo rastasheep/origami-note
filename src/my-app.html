@@ -21,6 +21,7 @@
       :host {
         --app-primary-color: #90A4AE;
         --app-secondary-color: black;
+        --primary-text-color: #616161;
 
         display: block;
       }
@@ -29,9 +30,17 @@
         color: #fff;
         background-color: var(--app-primary-color);
       }
+
       app-header paper-icon-button {
         --paper-icon-button-ink-color: white;
       }
+
+      paper-item {
+        --paper-item: {
+          cursor: pointer;
+        };
+      }
+
       .drawer__header {
         background-color: #fff;
       }
@@ -39,6 +48,7 @@
       .drawer__logo {
         width: 140px;
         margin: 0 auto;
+        fill: var(--primary-text-color);
       }
 
       .drawer__title {
@@ -48,33 +58,11 @@
         margin: 0 20px;
         padding-bottom: 10px;
         font-weight: 500;
+        color: var(--primary-text-color);
       }
 
-      .drawer-list {
-        margin: 0 20px;
-      }
-
-      .drawer-list a {
-        display: block;
-
-        padding: 0 16px;
-
-        text-decoration: none;
-
-        color: var(--app-secondary-color);
-
-        line-height: 40px;
-      }
-
-      .drawer-list a.iron-selected {
-        color: black;
-
-        font-weight: bold;
-      }
-
-      .paper-item-link {
-        color: inherit;
-        text-decoration: none;
+      iron-icon {
+        margin-right: 16px;
       }
     </style>
 
@@ -100,19 +88,29 @@
 
           <!-- nav menu -->
           <paper-listbox
-            selected="{{_pageData.page}}"
-            attr-for-selected="name"
-            on-iron-activate="_drawerSelected">
+                 selected="{{routeData.page}}"
+                 attr-for-selected="name"
+                 on-iron-activate="_drawerSelected">
 
-            <a class="paper-item-link" name="view1" href="/view1">
-              <paper-item>View One</paper-item>
-            </a>
-            <a class="paper-item-link" name="view2" href="/view2">
-              <paper-item>View Two</paper-item>
-            </a>
-            <a class="paper-item-link" name="view3" href="/view3">
-              <paper-item>View Three</paper-item>
-            </a>
+            <paper-item name="view1">
+              <iron-icon icon="icons:assignment"></iron-icon>
+              Editor
+            </paper-item>
+
+            <paper-item name="view2">
+              <iron-icon icon="icons:about"></iron-icon>
+              About
+            </paper-item>
+
+            <paper-item name="view2">
+              <iron-icon icon="icons:delete"></iron-icon>
+              Remove data
+            </paper-item>
+
+            <paper-item name="view3">
+              <iron-icon icon="icons:feedback"></iron-icon>
+              Send feedback
+            </paper-item>
 
           </paper-listbox>
 
