@@ -33,7 +33,12 @@
         z-index: 2;
       }
 
+      .fab--big {
+        margin: 10px auto;
+      }
+
       .fab--small {
+        margin: 10px 15px;
         opacity: 0;
         will-change: opacity;
         -webkit-transform: scale(.4) rotate(360deg);
@@ -97,7 +102,6 @@
       }
 
       paper-fab {
-        margin: 10px auto;
         --paper-fab-background: var(--google-red-500);
         --paper-fab-keyboard-focus-background: var(--google-red-500);
       }
@@ -105,15 +109,15 @@
       paper-fab:hover {
         box-shadow: 0 0 6px rgba(0,0,0,.16),0 6px 12px rgba(0,0,0,.32);
       }
-
     </style>
+
     <iron-localstorage
       name="origami-note-editor-state"
       value="{{ editorState }}"
       on-iron-localstorage-load-empty="_initDefaultEditorState">
     </iron-localstorage>
 
-    <div class="card">
+    <div class="card" on-tap="__focusEditor">
       <code-mirror id="mirror" state="{{ editorState }}">
       </code-mirror>
     </div>
@@ -132,8 +136,7 @@
       <paper-tooltip for="fab-4" position="left" animation-delay="0">Tooltip text</paper-tooltip>
 
       <paper-fab icon="icons:unfold-less" on-tap="__foldAll" class="fab--big" id="fold"></paper-fab>
-      <paper-tooltip for="fold" position="left" animation-delay="0">Tooltip text</paper-tooltip>
-
+      <paper-tooltip for="fold" position="left" animation-delay="0">Fold all</paper-tooltip>
     </div>
   </template>
 
@@ -149,9 +152,12 @@
       _initDefaultEditorState: function () {
         this.editorState = {};
       },
-      __foldAll: function() {
+      __foldAll: function () {
         this.$.mirror.foldAll();
-      }
+      },
+      __focusEditor: function () {
+        this.$.mirror.focus();
+      },
     });
   </script>
 </dom-module>

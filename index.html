@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-    <title>My App</title>
-    <meta name="description" content="My App description">
+    <title>Origami note</title>
+    <meta name="description" content="Origami note">
 
     <link rel="icon" href="/images/favicon.ico">
 
@@ -13,7 +13,7 @@
     <link rel="manifest" href="/manifest.json">
 
     <!-- See https://goo.gl/qRE0vM -->
-    <meta name="theme-color" content="#3f51b5">
+    <meta name="theme-color" content="#90A4AE">
 
     <!-- Add to homescreen for Chrome on Android. Fallback for manifest.json -->
     <meta name="mobile-web-app-capable" content="yes">
@@ -33,56 +33,10 @@
 
     <!-- Tile icon for Windows 8 (144x144 + tile color) -->
     <meta name="msapplication-TileImage" content="/images/manifest/icon-144x144.png">
-    <meta name="msapplication-TileColor" content="#3f51b5">
+    <meta name="msapplication-TileColor" content="#90A4AE">
     <meta name="msapplication-tap-highlight" content="no">
 
-    <script>
-      // Setup Polymer options
-      window.Polymer = {
-        dom: 'shadow',
-        lazyRegister: true
-      };
-
-      // Load webcomponentsjs polyfill if browser does not support native Web Components
-      (function() {
-        'use strict';
-
-        var onload = function() {
-          // For native Imports, manually fire WebComponentsReady so user code
-          // can use the same code path for native and polyfill'd imports.
-          if (!window.HTMLImports) {
-            document.dispatchEvent(
-              new CustomEvent('WebComponentsReady', {bubbles: true})
-            );
-          }
-        };
-
-        var webComponentsSupported = (
-          'registerElement' in document
-          && 'import' in document.createElement('link')
-          && 'content' in document.createElement('template')
-        );
-
-        if (!webComponentsSupported) {
-          var script = document.createElement('script');
-          script.async = true;
-          script.src = '/bower_components/webcomponentsjs/webcomponents-lite.min.js';
-          script.onload = onload;
-          document.head.appendChild(script);
-        } else {
-          onload();
-        }
-      })();
-
-      // Load pre-caching Service Worker
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('/service-worker.js');
-        });
-      }
-    </script>
-
-    <link rel="import" href="/src/my-app.html">
+    <link rel="import" href="/src/my-app.html" async>
 
     <style>
       body {
@@ -101,10 +55,62 @@
         color: rgba(0,0,0,.8);
         font-size: 18px;
       }
+      my-app[unresolved] {
+        position: relative;
+        width: 100%;
+        height: 64px;
+        color: #fff;
+        background-color: #90A4AE;
+
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -ms-flex-direction: row;
+        -webkit-flex-direction: row;
+        flex-direction: row;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        padding: 0 16px;
+        pointer-events: none;
+        font-size: 20px;
+      }
+
+      my-app[unresolved] .shell__icon {
+        height: 24px;
+        width: 24px;
+        fill: currentcolor;
+        padding: 8px;
+      }
     </style>
+
   </head>
   <body>
-    <my-app></my-app>
-    <!-- Built with love using Polymer Starter Kit -->
+    <my-app unresolved>
+      <div class="shell__icon">
+        <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" style="pointer-events: none; display: block; width: 100%; height: 100%;"><g><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></g></svg>
+      </div>
+      Origami note
+    </my-app>
+
+    <script>
+      window.performance && performance.mark && performance.mark('index.html');
+
+      Polymer = {lazyRegister: true, dom: 'shadow'};
+
+      (function() {
+        if ('registerElement' in document
+            && 'import' in document.createElement('link')
+            && 'content' in document.createElement('template')) {
+          // platform is good!
+        } else {
+          // polyfill the platform!
+          var e = document.createElement('script');
+          e.src = '/bower_components/webcomponentsjs/webcomponents-lite.min.js';
+          document.body.appendChild(e);
+        }
+      })();
+    </script>
+
   </body>
 </html>

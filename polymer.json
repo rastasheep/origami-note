@@ -5,7 +5,8 @@
     "src/my-view1.html",
     "src/my-view2.html",
     "src/my-view3.html",
-    "src/my-view404.html"
+    "src/my-view404.html",
+    "src/lazy-resources.html"
   ],
   "sourceGlobs": [
    "src/**/*",
@@ -15,5 +16,22 @@
   "includeDependencies": [
     "manifest.json",
     "bower_components/webcomponentsjs/webcomponents-lite.min.js"
+  ],
+  "lint": {
+    "rules": ["polymer-1"]
+  },
+  "builds": [
+    {
+      "name": "default"
+    },
+    {
+      "name": "bundled",
+      "bundle": true,
+      "addServiceWorker": true,
+      "insertPrefetchLinks": true,
+      "js": {"minify": true, "compile": true},
+      "css": {"minify": true},
+      "html": {"minify": true}
+    }
   ]
 }

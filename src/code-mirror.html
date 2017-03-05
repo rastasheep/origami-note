@@ -49,7 +49,11 @@
 
       this.mirror.on('change', updateState.bind(this));
       this.mirror.on('gutterClick', updateState.bind(this));
-      this.async( this.refresh, 1)
+      this.async(function (){
+        this.refresh();
+        this.mirror.focus();
+        this.mirror.setCursor(this.mirror.lineCount(), 0);
+      }, 1)
     },
     refresh: function() {
       this.mirror.refresh();

@@ -1,5 +1,4 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
@@ -8,12 +7,14 @@
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 
 <link rel="import" href="my-icons.html">
+
+<!-- Since 'home' is the default route, eagerly load it. -->
+<link rel="import" href="my-view1.html">
 
 <dom-module id="my-app">
   <template>
@@ -39,6 +40,11 @@
         --paper-item: {
           cursor: pointer;
         };
+      }
+      .paper-item-link {
+        color: inherit;
+        text-decoration: none;
+        width: 100%;
       }
 
       .drawer__header {
@@ -107,9 +113,11 @@
               Remove data
             </paper-item>
 
-            <paper-item name="view3">
-              <iron-icon icon="icons:feedback"></iron-icon>
-              Send feedback
+            <paper-item>
+              <a class="paper-item-link" href="mailto:rastasheep3+origami@gmail.com" tabindex="-1" target="_blank">
+                <iron-icon icon="icons:feedback"></iron-icon>
+                Send feedback
+              </a>
             </paper-item>
 
           </paper-listbox>
@@ -160,15 +168,48 @@
         '_routePageChanged(routeData.page)'
       ],
 
+      created: function() {
+        window.performance && performance.mark && performance.mark('origami-app.created');
+        this.removeAttribute('unresolved');
+      },
+
       _routePageChanged: function(page) {
         this.page = page || 'view1';
         this.drawerOpened = false;
       },
 
-      _pageChanged: function(page) {
-        // Load page import on demand. Show 404 page if fails
-        var resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
-        this.importHref(resolvedPageUrl, null, this._showPage404, true);
+      _pageChanged: function(page, oldPage) {
+        if (page == 'view1') {
+          this._pageLoaded(Boolean(oldPage));
+          // other routes are lazy loaded
+        } else {
+          // Load page import on demand. Show 404 page if fails
+          var resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
+          this.importHref(
+              resolvedPageUrl,
+              this._pageLoaded.bind(this, Boolean(oldPage)),
+              this._showPage404,
+              true);
+        }
+      },
+
+      _pageLoaded: function(shouldResetLayout) {
+        this._ensureLazyLoaded();
+      },
+
+      _ensureLazyLoaded: function() {
+        // load lazy resources after render and set `loadComplete` when done.
+        if (!this.loadComplete) {
+          Polymer.RenderStatus.afterNextRender(this, function() {
+            this.importHref(this.resolveUrl('lazy-resources.html'), function() {
+              this.loadComplete = true;
+              // Load pre-caching Service Worker
+              if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/service-worker.js');
+              }
+            });
+          });
+        }
       },
 
       _showPage404: function() {
