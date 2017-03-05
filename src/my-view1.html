@@ -1,9 +1,10 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../bower_components/iron-localstorage/iron-localstorage.html">
-<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <link rel="import" href="shared-styles.html">
 
@@ -117,19 +118,21 @@
       on-iron-localstorage-load-empty="_initDefaultEditorState">
     </iron-localstorage>
 
+    <app-location query-params="{{queryParams}}"></app-location>
+
     <div class="card" on-tap="__focusEditor">
       <code-mirror id="mirror" state="{{ editorState }}">
       </code-mirror>
     </div>
 
     <div class="fab__container">
-      <paper-fab mini icon="favorite" class="fab--small" id="fab-1"></paper-fab>
+      <paper-fab mini icon="star" class="fab--small" id="fab-1"></paper-fab>
       <paper-tooltip for="fab-1" position="left" animation-delay="0">Tooltip text</paper-tooltip>
 
-      <paper-fab mini icon="check" class="fab--small" id="fab-2"></paper-fab>
+      <paper-fab mini icon="star" class="fab--small" id="fab-2"></paper-fab>
       <paper-tooltip for="fab-2" position="left" animation-delay="0">Tooltip text</paper-tooltip>
 
-      <paper-fab mini icon="reply" class="fab--small" id="fab-3"></paper-fab>
+      <paper-fab mini icon="star" class="fab--small" id="fab-3"></paper-fab>
       <paper-tooltip for="fab-3" position="left" animation-delay="0">Tooltip text</paper-tooltip>
 
       <paper-fab mini icon="star" class="fab--small" id="fab-4"></paper-fab>
@@ -138,6 +141,15 @@
       <paper-fab icon="icons:unfold-less" on-tap="__foldAll" class="fab--big" id="fold"></paper-fab>
       <paper-tooltip for="fold" position="left" animation-delay="0">Fold all</paper-tooltip>
     </div>
+
+    <paper-dialog id="modal" modal on-iron-overlay-opened="patchOverlay">
+      <h2>Delete all notes</h2>
+      <p>Do you want to erase all data from origami note?</p>
+      <div class="buttons">
+        <paper-button dialog-confirm on-tap="__ereseData">Delete</paper-button>
+        <paper-button raised dialog-confirm autofocus on-tap="__eraseCancel">Cancel</paper-button>
+      </div>
+    </paper-dialog>
   </template>
 
   <script>
@@ -147,10 +159,28 @@
         editorState: {
           type: Object,
           notify: true
+        },
+        queryParams: {
+          type: Object,
+          notify: true,
+          observer: '_queryParamsChanged'
+        }
+      },
+      // https://github.com/PolymerElements/paper-dialog/issues/7
+      patchOverlay: function (e) {
+        if (e.target.withBackdrop) {
+            e.target.parentNode.insertBefore(e.target.backdropElement, e.target);
+          }
+      },
+      _queryParamsChanged: function (newValue, oldValue) {
+        if (typeof newValue.clean !== 'undefined') {
+          this.$.modal.open()
         }
       },
       _initDefaultEditorState: function () {
-        this.editorState = {};
+        this.editorState = {
+          value: 'hi!'
+        };
       },
       __foldAll: function () {
         this.$.mirror.foldAll();
@@ -158,6 +188,15 @@
       __focusEditor: function () {
         this.$.mirror.focus();
       },
+      __ereseData: function () {
+        this.__eraseCancel();
+        this._initDefaultEditorState();
+        // force new state
+        this.$.mirror._setState(this.editorState);
+      },
+      __eraseCancel: function () {
+        this.set('queryParams', null)
+      }
     });
   </script>
 </dom-module>

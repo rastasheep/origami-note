@@ -73,7 +73,7 @@
     },
     _stateChanged: function(newValue, oldValue) {
       if (!oldValue) {
-        this._setState(this.mirror, newValue);
+        this._setState(newValue);
       }
     },
     _getState:  function(cm){
@@ -94,7 +94,8 @@
       }
       return res;
     },
-    _setState: function(cm, state){
+    _setState: function(state){
+      var cm = this.mirror;
       var doc = cm.getDoc();
       if ( state.value !== undefined ){
         cm.setValue(state.value);
