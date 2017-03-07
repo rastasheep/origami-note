@@ -70,6 +70,14 @@
       iron-icon {
         margin-right: 16px;
       }
+      .icon_dot:after{
+        opacity: .4;
+        content: "·";
+      }
+      .icon_return:after{
+        opacity: .4;
+        content: "¬";
+      }
     </style>
 
     <app-location route="{{route}}"></app-location>
@@ -130,12 +138,12 @@
       <!-- Main content -->
       <app-header-layout has-scrolling-region>
 
-        <app-header condenses reveals shadow effects="waterfall">
+        <app-header fixed shadow>
           <app-toolbar>
             <paper-icon-button icon="menu" drawer-toggle>
             </paper-icon-button>
             <div main-title>
-              Origami note
+              Origami <i class="icon_dot"></i> note <i class="icon_return"></i>
             </div>
           </app-toolbar>
         </app-header>
