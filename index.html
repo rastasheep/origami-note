@@ -36,7 +36,7 @@
     <meta name="msapplication-TileColor" content="#90A4AE">
     <meta name="msapplication-tap-highlight" content="no">
 
-    <link rel="import" href="/src/my-app.html" async>
+    <link rel="import" href="/src/origami-app.html" async>
 
     <style>
       body {
@@ -55,7 +55,7 @@
         color: rgba(0,0,0,.8);
         font-size: 18px;
       }
-      my-app[unresolved] {
+      origami-app[unresolved] {
         position: relative;
         width: 100%;
         height: 64px;
@@ -75,23 +75,45 @@
         pointer-events: none;
         font-size: 20px;
       }
+      origami-app[unresolved]:after {
+        position: absolute;
+        right: 0px;
+        bottom: -5px;
+        left: 0px;
+        width: 100%;
+        height: 5px;
+        content: "";
+        pointer-events: none;
+        box-shadow: inset 0px 5px 6px -3px rgba(0, 0, 0, 0.4);
+      }
 
-      my-app[unresolved] .shell__icon {
+      origami-app[unresolved] .shell__icon {
         height: 24px;
         width: 24px;
         fill: currentcolor;
         padding: 8px;
       }
+
+      .icon_dot:after{
+        opacity: .4;
+        content: "·";
+      }
+      .icon_return:after{
+        opacity: .4;
+        content: "¬";
+      }
     </style>
 
   </head>
   <body>
-    <my-app unresolved>
+    <origami-app unresolved>
       <div class="shell__icon">
         <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" style="pointer-events: none; display: block; width: 100%; height: 100%;"><g><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></g></svg>
       </div>
-      Origami note
-    </my-app>
+      <div main-title>
+        Origami <i class="icon_dot"></i> note <i class="icon_return"></i>
+      </div>
+    </origami-app>
 
     <script>
       window.performance && performance.mark && performance.mark('index.html');

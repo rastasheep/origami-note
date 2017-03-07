@@ -1,11 +1,10 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/my-app.html",
+  "shell": "src/origami-app.html",
   "fragments": [
-    "src/my-view1.html",
-    "src/my-view2.html",
-    "src/my-view3.html",
-    "src/my-view404.html",
+    "src/origami-editor.html",
+    "src/origami-about.html",
+    "src/origami-404.html",
     "src/lazy-resources.html"
   ],
   "sourceGlobs": [
