@@ -20,8 +20,12 @@
   </template>
 
   <script>
+    window.performance && performance.mark && performance.mark('origami-app.origami-about');
     Polymer({
-      is: 'origami-about'
+      is: 'origami-about',
+      created: function() {
+        window.performance && performance.mark && performance.mark('origami-app.app-about');
+      }
     });
   </script>
 </dom-module>

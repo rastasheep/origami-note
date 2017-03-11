@@ -153,6 +153,8 @@
   </template>
 
   <script>
+    window.performance && performance.mark && performance.mark('origami-app.origami-editor');
+
     Polymer({
       is: 'origami-editor',
       properties: {
@@ -166,6 +168,11 @@
           observer: '_queryParamsChanged'
         }
       },
+
+      created: function() {
+        window.performance && performance.mark && performance.mark('origami-app.app-editor');
+      },
+
       // https://github.com/PolymerElements/paper-dialog/issues/7
       patchOverlay: function (e) {
         if (e.target.withBackdrop) {

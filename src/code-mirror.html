@@ -27,6 +27,7 @@
 </dom-module>
 
 <script>
+  window.performance && performance.mark && performance.mark('origami-app.code-mirror');
   Polymer({
     is: 'code-mirror',
     properties: {
@@ -36,7 +37,11 @@
         notify: true,
       }
     },
+    created: function() {
+      window.performance && performance.mark && performance.mark('origami-app.app-code-mirror');
+    },
     ready: function() {
+      window.performance && performance.mark && performance.mark('origami-app.app-code-mirror.ready');
       this.mirror = CodeMirror(this.shadowRoot, {
         mode: "gfm",
         lineNumbers: false,
@@ -51,6 +56,7 @@
       });
       var updateState = function (cm) {
         this.state = this._getState(cm)
+        window.performance && performance.mark && performance.mark('origami-app.app-code-mirror.state-ready');
       };
 
       this.mirror.on('change', updateState.bind(this));
