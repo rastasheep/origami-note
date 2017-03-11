@@ -1,0 +1,120 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1,user-scalable=yes">
+
+    <title>Origami note</title>
+    <meta name="description" content="Origami note">
+
+    <link rel="icon" href="/images/favicon.ico">
+
+    
+    <link rel="manifest" href="/manifest.json">
+
+    
+    <meta name="theme-color" content="#90A4AE">
+
+    
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="My App">
+
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="My App">
+
+    
+    <link rel="apple-touch-icon" href="/images/manifest/icon-48x48.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/manifest/icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="96x96" href="/images/manifest/icon-96x96.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/manifest/icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="/images/manifest/icon-192x192.png">
+
+    
+    <meta name="msapplication-TileImage" content="/images/manifest/icon-144x144.png">
+    <meta name="msapplication-TileColor" content="#90A4AE">
+    <meta name="msapplication-tap-highlight" content="no">
+
+    <link rel="import" href="/src/origami-app.html" async="">
+
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background-color: #eeeeee;
+        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif;
+        line-height: 1.4;
+        letter-spacing: 0;
+        font-weight: 400;
+        font-style: normal;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        -moz-font-feature-settings: "liga" on;
+        color: rgba(0,0,0,.8);
+        font-size: 18px;
+      }
+      origami-app[unresolved] {
+        position: relative;
+        width: 100%;
+        height: 64px;
+        color: #fff;
+        background-color: #90A4AE;
+
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -ms-flex-direction: row;
+        -webkit-flex-direction: row;
+        flex-direction: row;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        padding: 0 16px;
+        pointer-events: none;
+        font-size: 20px;
+      }
+      origami-app[unresolved]:after {
+        position: absolute;
+        right: 0px;
+        bottom: -5px;
+        left: 0px;
+        width: 100%;
+        height: 5px;
+        content: "";
+        pointer-events: none;
+        box-shadow: inset 0px 5px 6px -3px rgba(0, 0, 0, 0.4);
+      }
+
+      origami-app[unresolved] .shell__icon {
+        height: 24px;
+        width: 24px;
+        fill: currentcolor;
+        padding: 8px;
+      }
+
+      .icon_dot:after{
+        opacity: .4;
+        content: "·";
+      }
+      .icon_return:after{
+        opacity: .4;
+        content: "¬";
+      }
+    </style>
+
+  </head>
+  <body>
+    <origami-app unresolved="">
+      <div class="shell__icon">
+        <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" style="pointer-events: none; display: block; width: 100%; height: 100%"><g><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></g></svg>
+      </div>
+      <div main-title="">
+        Origami <i class="icon_dot"></i> note <i class="icon_return"></i>
+      </div>
+    </origami-app>
+
+    <script>window.performance&&performance.mark&&performance.mark("index.html"),Polymer={lazyRegister:!0,dom:"shadow"},function(){if("registerElement"in document&&"import"in document.createElement("link")&&"content"in document.createElement("template"));else{var e=document.createElement("script");e.src="/bower_components/webcomponentsjs/webcomponents-lite.min.js",document.body.appendChild(e)}}();</script>
+
+  
+
+</body></html>

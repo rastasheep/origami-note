@@ -1,0 +1,30 @@
+<html><head><link rel="import" href="../bower_components/polymer/polymer.html">
+<script src="../bower_components/codemirror/lib/codemirror.js"></script>
+<script src="../bower_components/codemirror/mode/markdown/markdown.js"></script>
+<script src="../bower_components/codemirror/mode/gfm/gfm.js"></script>
+<script src="../bower_components/codemirror/addon/mode/overlay.js"></script>
+<script src="../bower_components/codemirror/addon/fold/foldgutter.js"></script>
+<script src="../bower_components/codemirror/addon/fold/markdown-fold.js"></script>
+<script src="../bower_components/codemirror/addon/fold/foldcode.js"></script>
+
+</head><body><dom-module id="code-mirror">
+  <template>
+    <link href="../bower_components/codemirror/lib/codemirror.css" rel="stylesheet">
+    <link href="../bower_components/codemirror/addon/fold/foldgutter.css" rel="stylesheet">
+    <link href="code-mirror.css" rel="stylesheet">
+
+    <style>
+      :host {
+        display: block;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        min-height: 10vh;
+      }
+    </style>
+  </template>
+</dom-module>
+
+<script>window.performance&&performance.mark&&performance.mark("origami-app.code-mirror"),Polymer({is:"code-mirror",properties:{state:{type:Object,observer:"_stateChanged",notify:!0}},created:function(){window.performance&&performance.mark&&performance.mark("origami-app.app-code-mirror")},ready:function(){window.performance&&performance.mark&&performance.mark("origami-app.app-code-mirror.ready"),this.mirror=CodeMirror(this.shadowRoot,{mode:"gfm",lineNumbers:!1,lineWrapping:!0,extraKeys:{"Ctrl-Q":function(r){r.foldCode(r.getCursor())}},foldGutter:!0,gutters:["CodeMirror-foldgutter"],cursorBlinkRate:0,scrollbarStyle:null,autofocus:!0,undoDepth:10});var r=function(r){this.state=this._getState(r),window.performance&&performance.mark&&performance.mark("origami-app.app-code-mirror.state-ready")};this.mirror.on("change",r.bind(this)),this.mirror.on("gutterClick",r.bind(this)),this.async(function(){this.refresh(),this.mirror.focus(),this.mirror.setCursor(this.mirror.lineCount(),0)},1)},refresh:function(){this.mirror.refresh()},focus:function(){this.mirror.focus()},foldAll:function(){var r=this.mirror;r.operation(function(){for(var e=0;e<r.lineCount();e++)r.isFolded({line:e+1,ch:0})||r.foldCode({line:e,ch:0},null,"fold")})},_stateChanged:function(r,e){e||this._setState(r)},_getState:function(r){var e=r.getDoc(),o=e.getAllMarks(),t={value:r.getValue(),selections:e.listSelections(),marks:[]};if(o.length)for(var i=o.length-1;i>=0;i--)o[i].collapsed&&"range"===o[i].type&&t.marks.push(o[i].find().from);return t},_setState:function(r){var e=this.mirror,o=e.getDoc();if(void 0!==r.value&&e.setValue(r.value),r.selections)for(var t=0,i=r.selections.length;t<i;t++)a=r.selections[t],o.setSelection(a.anchor,a.head);if(r.marks)for(var t=0,i=r.marks.length;t<i;t++)e.foldCode(r.marks[t])}});</script>
+</body></html>

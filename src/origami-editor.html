@@ -1,0 +1,142 @@
+<html><head><meta charset="UTF-8"><link rel="import" href="origami-app.html"></head><body><dom-module id="origami-editor">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 10px;
+
+        --paper-tooltip: {
+          font-size: 12px;
+          font-weight: bold;
+          padding: 6px 8px;
+          background-color: rgba(70,70,70,.9);
+          box-shadow: 0 1px 2px rgba(0,0,0,.15);
+          color: #ececec;
+        }
+      }
+
+      .fab__container {
+        position: fixed;
+        bottom: 23px;
+        right: 23px;
+        z-index: 2;
+      }
+
+      .fab--big {
+        margin: 10px auto;
+      }
+
+      .fab--small {
+        margin: 10px 15px;
+        opacity: 0;
+        will-change: opacity;
+        -webkit-transform: scale(.4) rotate(360deg);
+        transform: scale(.4) rotate(360deg);
+        -webkit-transition: all 120ms cubic-bezier(.25,.25,0,1);
+        transition: all 120ms cubic-bezier(.25,.25,0,1);
+        -webkit-transition-property: opacity, transform;
+        transition-property: opacity, transform;
+      }
+
+      .fab--small:nth-child(1){
+        -webkit-transition-delay: 0;
+        transition-delay: 0;
+      }
+      .fab__container:hover .fab--small:nth-child(1){
+        -webkit-transition-delay: 90ms;
+        transition-delay: 90ms;
+      }
+      .fab--small:nth-child(2){
+        -webkit-transition-delay: 30ms;
+        transition-delay: 30ms;
+      }
+      .fab__container:hover .fab--small:nth-child(2){
+        -webkit-transition-delay: 60ms;
+        transition-delay: 60ms;
+      }
+      .fab--small:nth-child(3){
+        -webkit-transition-delay: 60ms;
+        transition-delay: 60ms;
+      }
+      .fab__container:hover .fab--small:nth-child(3){
+        -webkit-transition-delay: 30ms;
+        transition-delay: 30ms;
+      }
+      .fab--small:nth-child(4){
+        -webkit-transition-delay: 75ms;
+        transition-delay: 75ms;
+      }
+      .fab__container:hover .fab--small:nth-child(4){
+        -webkit-transition-delay: 15ms;
+        transition-delay: 15ms;
+      }
+
+      .fab__container:hover paper-fab.fab--small {
+        opacity: 1;
+        will-change: opacity;
+        -webkit-transform: scale(1) rotate(360deg);
+        transform: scale(1) rotate(360deg);
+        -webkit-transition: all 120ms cubic-bezier(.25,.25,0,1);
+        transition: all 120ms cubic-bezier(.25,.25,0,1);
+      }
+
+      .fab--big::shadow iron-icon {
+        -webkit-transition: -webkit-transform 210ms cubic-bezier(.25,.25,0,1);
+        transition: transform 210ms cubic-bezier(.25,.25,0,1);
+      }
+
+      .fab__container:hover .fab--big::shadow iron-icon {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+
+      paper-fab {
+        --paper-fab-background: var(--google-red-500);
+        --paper-fab-keyboard-focus-background: var(--google-red-500);
+      }
+
+      paper-fab:hover {
+        box-shadow: 0 0 6px rgba(0,0,0,.16),0 6px 12px rgba(0,0,0,.32);
+      }
+    </style>
+
+    <iron-localstorage name="origami-note-editor-state" value="{{ editorState }}" on-iron-localstorage-load-empty="_initDefaultEditorState">
+    </iron-localstorage>
+
+    <app-location query-params="{{queryParams}}"></app-location>
+
+    <div class="card" on-tap="__focusEditor">
+      <code-mirror id="mirror" state="{{ editorState }}">
+      </code-mirror>
+    </div>
+
+    <div class="fab__container">
+      <paper-fab mini="" icon="star" class="fab--small" id="fab-1"></paper-fab>
+      <paper-tooltip for="fab-1" position="left" animation-delay="0">Tooltip text</paper-tooltip>
+
+      <paper-fab mini="" icon="star" class="fab--small" id="fab-2"></paper-fab>
+      <paper-tooltip for="fab-2" position="left" animation-delay="0">Tooltip text</paper-tooltip>
+
+      <paper-fab mini="" icon="star" class="fab--small" id="fab-3"></paper-fab>
+      <paper-tooltip for="fab-3" position="left" animation-delay="0">Tooltip text</paper-tooltip>
+
+      <paper-fab mini="" icon="star" class="fab--small" id="fab-4"></paper-fab>
+      <paper-tooltip for="fab-4" position="left" animation-delay="0">Tooltip text</paper-tooltip>
+
+      <paper-fab icon="icons:unfold-less" on-tap="__foldAll" class="fab--big" id="fold"></paper-fab>
+      <paper-tooltip for="fold" position="left" animation-delay="0">Fold all</paper-tooltip>
+    </div>
+
+    <paper-dialog id="modal" modal="" on-iron-overlay-opened="patchOverlay">
+      <h2>Delete all notes</h2>
+      <p>Do you want to erase all data from origami note?</p>
+      <div class="buttons">
+        <paper-button dialog-confirm="" on-tap="__ereseData">Delete</paper-button>
+        <paper-button raised="" dialog-confirm="" autofocus="" on-tap="__eraseCancel">Cancel</paper-button>
+      </div>
+    </paper-dialog>
+  </template>
+
+  <script>window.performance&&performance.mark&&performance.mark("origami-app.origami-editor"),Polymer({is:"origami-editor",properties:{editorState:{type:Object,notify:!0},queryParams:{type:Object,notify:!0,observer:"_queryParamsChanged"}},created:function(){window.performance&&performance.mark&&performance.mark("origami-app.app-editor")},patchOverlay:function(e){e.target.withBackdrop&&e.target.parentNode.insertBefore(e.target.backdropElement,e.target)},_queryParamsChanged:function(e,t){void 0!==e.clean&&this.$.modal.open()},_initDefaultEditorState:function(){this.editorState={value:"hi!"}},__foldAll:function(){this.$.mirror.foldAll()},__focusEditor:function(){this.$.mirror.focus()},__ereseData:function(){this.__eraseCancel(),this._initDefaultEditorState(),this.$.mirror._setState(this.editorState)},__eraseCancel:function(){this.set("queryParams",null)}});</script>
+</dom-module>
+</body></html>
